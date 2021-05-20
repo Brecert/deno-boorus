@@ -1,0 +1,3 @@
+- [ ] Add documentation for all of the properties and types
+- [ ] Add a better way to search with raw searching so that
+- [ ] Separate generic implementation posts and actual more
