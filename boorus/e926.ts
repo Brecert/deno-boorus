@@ -105,7 +105,7 @@ export const searchRaw: SearchRawFn<PostData[]> = async (options) => {
   const url = uri`https://${site.host}${[site.endpoint]}${{
     tags: options.tags.join("+"),
     limit: options.limit.toPrecision(1),
-    random: options.random.toString()
+    random: options.random.toString(),
   }}`;
 
   const res = await fetch(url);

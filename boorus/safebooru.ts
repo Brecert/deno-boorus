@@ -38,22 +38,20 @@ export const convert: ConvertFn<PostData> = (post, options) => ({
   score: post.score,
   width: post.width,
   height: post.height,
-  fileURL:
-    `https://${site.host}/images/${post.directory}/${post.image}`,
+  fileURL: `https://${site.host}/images/${post.directory}/${post.image}`,
 });
 
 export const searchRaw: SearchRawFn<PostData[]> = async (options) => {
-  if(options.random) {
-    console.warn('Safebooru does not have random.')
+  if (options.random) {
+    console.warn("Safebooru does not have random.");
   }
 
   const url = uri`https://${site.host}${[site.endpoint]}${{
     tags: options.tags.join("+"),
     limit: options.limit.toPrecision(1),
-    random: options.random.toString()
+    random: options.random.toString(),
   }}`;
 
-  console.log(url)
   const res = await fetch(url);
   return res.json();
 };

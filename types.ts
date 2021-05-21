@@ -8,7 +8,6 @@ export interface BooruSite {
 
 export interface SearchOptions {
   tags: string[];
-  excludeTags: string[];
   limit: number;
   random: boolean;
 }
