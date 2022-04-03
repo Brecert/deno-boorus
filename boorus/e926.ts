@@ -1,4 +1,3 @@
-// deno-lint-ignore-file
 import uri from "https://raw.githubusercontent.com/Brecert/mouri/main/mod.ts";
 import { BooruSite, ConvertFn, SearchFn, SearchRawFn } from "../types.ts";
 
@@ -92,7 +91,7 @@ export interface PostData {
   duration: unknown | null;
 }
 
-export const convert: ConvertFn<PostData> = (post, options) => ({
+export const convert: ConvertFn<PostData> = (post, _options) => ({
   id: post.id,
   tags: Object.values(post.tags).flat(),
   score: post.score.total,
@@ -101,9 +100,7 @@ export const convert: ConvertFn<PostData> = (post, options) => ({
   fileURL: post.file.url,
 });
 
-export const searchRaw: SearchRawFn<undefined | PostData[]> = async (
-  options,
-) => {
+export const searchRaw: SearchRawFn<undefined | PostData[]> = (options) => {
   const url = uri`https://${site.host}${[site.endpoint]}${{
     tags: options.tags.join("+"),
     limit: options.limit.toPrecision(1),

@@ -1,4 +1,3 @@
-// deno-lint-ignore-file
 import uri from "https://raw.githubusercontent.com/Brecert/mouri/main/mod.ts";
 import { BooruSite, ConvertFn, SearchFn, SearchRawFn } from "../types.ts";
 
@@ -32,7 +31,7 @@ export type PostData = {
   owner: string;
 };
 
-export const convert: ConvertFn<PostData> = (post, options) => ({
+export const convert: ConvertFn<PostData> = (post, _options) => ({
   id: post.id,
   tags: post.tags.split(" "),
   score: post.score,
@@ -41,9 +40,7 @@ export const convert: ConvertFn<PostData> = (post, options) => ({
   fileURL: `https://${site.host}/images/${post.directory}/${post.image}`,
 });
 
-export const searchRaw: SearchRawFn<undefined | PostData[]> = async (
-  options,
-) => {
+export const searchRaw: SearchRawFn<undefined | PostData[]> = (options) => {
   if (options.random) {
     console.warn("safebooru does not have the ability to search randomly.");
   }
