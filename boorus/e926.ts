@@ -91,6 +91,10 @@ export interface PostData {
   duration: unknown | null;
 }
 
+export interface SearchResult {
+  posts: PostData[];
+}
+
 export const convert: ConvertFn<PostData> = (post, _options) => ({
   id: post.id,
   tags: Object.values(post.tags).flat(),
@@ -100,15 +104,17 @@ export const convert: ConvertFn<PostData> = (post, _options) => ({
   fileURL: post.file.url,
 });
 
-export const searchRaw: SearchRawFn<undefined | PostData[]> = (options) => {
+export const searchRaw: SearchRawFn<SearchResult> = (options) => {
+  const tags = options.tags;
+  if (options.random) tags.push("order:random");
+
   const url = uri`https://${site.host}${[site.endpoint]}${{
-    tags: options.tags.join("+"),
+    tags: options.tags.join(" "),
     limit: options.limit.toPrecision(1),
-    random: options.random ?? true,
   }}`;
 
   return fetch(url).then((res) => res.json());
 };
 
 export const search: SearchFn = (options) =>
-  searchRaw(options).then((p) => p?.map((p) => convert(p, options)));
+  searchRaw(options).then((p) => p.posts.map((p) => convert(p, options)));

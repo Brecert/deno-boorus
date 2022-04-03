@@ -40,13 +40,13 @@ export const convert: ConvertFn<PostData> = (post, _options) => ({
   fileURL: `https://${site.host}/images/${post.directory}/${post.image}`,
 });
 
-export const searchRaw: SearchRawFn<undefined | PostData[]> = (options) => {
+export const searchRaw: SearchRawFn<PostData[]> = (options) => {
   if (options.random) {
     console.warn("safebooru does not have the ability to search randomly.");
   }
 
   const url = uri`https://${site.host}${[site.endpoint]}${{
-    tags: options.tags.join("+"),
+    tags: options.tags.join(" "),
     limit: options.limit.toPrecision(1),
   }}`;
 
@@ -54,4 +54,4 @@ export const searchRaw: SearchRawFn<undefined | PostData[]> = (options) => {
 };
 
 export const search: SearchFn = (options) =>
-  searchRaw(options).then((p) => p?.map((p) => convert(p, options)));
+  searchRaw(options).then((p) => p.map((p) => convert(p, options)));

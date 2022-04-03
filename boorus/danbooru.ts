@@ -79,9 +79,9 @@ export const convert: ConvertFn<PostData> = (post, _options) => ({
   fileURL: post.file_url,
 });
 
-export const searchRaw: SearchRawFn<undefined | PostData[]> = (options) => {
+export const searchRaw: SearchRawFn<PostData[]> = (options) => {
   const url = uri`https://${site.host}${[site.endpoint]}${{
-    tags: options.tags.join("+"),
+    tags: options.tags.join(" "),
     limit: options.limit.toPrecision(1),
     random: options.random ?? true,
   }}`;
@@ -90,4 +90,4 @@ export const searchRaw: SearchRawFn<undefined | PostData[]> = (options) => {
 };
 
 export const search: SearchFn = (options) =>
-  searchRaw(options).then((p) => p?.map((p) => convert(p, options)));
+  searchRaw(options).then((p) => p.map((p) => convert(p, options)));
