@@ -80,17 +80,17 @@ export const convert: ConvertFn<PostData> = (post, options) => ({
   fileURL: post.file_url,
 });
 
-export const searchRaw: SearchRawFn<PostData[]> = async (options) => {
+export const searchRaw: SearchRawFn<undefined | PostData[]> = async (
+  options,
+) => {
   const url = uri`https://${site.host}${[site.endpoint]}${{
     tags: options.tags.join("+"),
     limit: options.limit.toPrecision(1),
-    random: options.random.toString(),
+    random: options.random ?? true,
   }}`;
 
-  console.log(url);
-  const res = await fetch(url);
-  return res.json();
+  return fetch(url).then((res) => res.json());
 };
 
 export const search: SearchFn = (options) =>
-  searchRaw(options).then((p) => p.map((p) => convert(p, options)));
+  searchRaw(options).then((p) => p?.map((p) => convert(p, options)));

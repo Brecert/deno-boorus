@@ -9,7 +9,7 @@ export interface BooruSite {
 export interface SearchOptions {
   tags: string[];
   limit: number;
-  random: boolean;
+  random?: boolean;
 }
 
 export interface BooruPost {
@@ -23,4 +23,4 @@ export interface BooruPost {
 
 export type ConvertFn<P> = (post: P, options: SearchOptions) => BooruPost;
 export type SearchRawFn<P> = (options: SearchOptions) => Promise<P>;
-export type SearchFn = SearchRawFn<BooruPost[]>;
+export type SearchFn = SearchRawFn<undefined | BooruPost[]>;
